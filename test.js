@@ -1,0 +1,1 @@
+console.log('Use npm run dev to start API and npm run worker to start conversion worker.');

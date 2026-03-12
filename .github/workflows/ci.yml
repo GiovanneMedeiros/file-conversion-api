@@ -1,0 +1,97 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: user
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: convertly
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U user -d convertly"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_URL: postgresql://user:password@127.0.0.1:5432/convertly
+      JWT_SECRET: ci_jwt_secret
+      REDIS_HOST: 127.0.0.1
+      REDIS_PORT: 6379
+      PORT: 3000
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma client
+        run: npx prisma generate
+
+      - name: Apply database migrations
+        run: npx prisma migrate deploy
+
+      - name: Start API in background
+        run: |
+          nohup npm start > api.log 2>&1 &
+          echo $! > api.pid
+
+      - name: Start worker in background
+        run: |
+          nohup npm run worker > worker.log 2>&1 &
+          echo $! > worker.pid
+
+      - name: Wait for health endpoint
+        run: |
+          for i in {1..60}; do
+            if curl -sf http://127.0.0.1:3000/health > /dev/null; then
+              echo "API is healthy"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "API did not become healthy in time"
+          exit 1
+
+      - name: Run smoke test
+        shell: pwsh
+        run: ./scripts/smoke.ps1 -BaseUrl http://127.0.0.1:3000 -TargetFormat png -FailOnConvertError
+
+      - name: Print logs on failure
+        if: failure()
+        run: |
+          echo "===== api.log ====="
+          cat api.log || true
+          echo "===== worker.log ====="
+          cat worker.log || true
