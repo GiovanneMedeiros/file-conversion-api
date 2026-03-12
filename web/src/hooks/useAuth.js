@@ -3,6 +3,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useAuthStore } from '../store/authStore';
 import { useNotificationStore } from '../store/notificationStore';
 import authService from '../services/auth.service';
+import { getApiErrorMessage } from '../services/api';
 
 export const useAuth = () => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ export const useAuth = () => {
       navigate('/dashboard');
       return response;
     } catch (error) {
-      const message = error.response?.data?.error || 'Falha ao fazer login';
+      const message = getApiErrorMessage(error) || 'Falha ao fazer login';
       useNotificationStore.getState().error(message);
       throw error;
     }
@@ -32,7 +33,7 @@ export const useAuth = () => {
       navigate('/login');
       return response;
     } catch (error) {
-      const message = error.response?.data?.error || 'Falha ao cadastrar usuário';
+      const message = getApiErrorMessage(error) || 'Falha ao cadastrar usuário';
       useNotificationStore.getState().error(message);
       throw error;
     }

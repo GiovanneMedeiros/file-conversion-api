@@ -5,15 +5,16 @@
   "description": "A SaaS-style API for file conversion using Node.js, Express, PostgreSQL, Prisma, Redis, and BullMQ",
   "main": "src/server.js",
   "scripts": {
-    "start": "node src/server.js",
+    "start": "prisma migrate deploy && node src/server.js",
     "dev": "nodemon src/server.js",
     "smoke": "powershell -ExecutionPolicy Bypass -File ./scripts/smoke.ps1 -BaseUrl http://localhost:3000 -FailOnConvertError",
     "validate": "powershell -ExecutionPolicy Bypass -File ./scripts/validate-local.ps1 -BaseUrl http://localhost:3000",
-    "build": "echo 'No build step required'",
+    "build": "prisma generate",
     "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --runInBand",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",
+    "prisma:deploy": "prisma migrate deploy",
     "worker": "node src/workers/conversion.worker.js"
   },
   "keywords": [

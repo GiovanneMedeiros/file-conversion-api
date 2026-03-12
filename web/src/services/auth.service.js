@@ -2,12 +2,12 @@ import api from './api';
 
 export const authService = {
   register: async (data) => {
-    const response = await api.post('/auth/register', data);
+    const response = await api.post('/auth/register', data, { skipAuth: true });
     return response.data;
   },
 
   login: async (data) => {
-    const response = await api.post('/auth/login', data);
+    const response = await api.post('/auth/login', data, { skipAuth: true });
     return response.data;
   },
 
