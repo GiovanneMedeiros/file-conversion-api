@@ -1,5 +1,7 @@
+import fs from 'fs';
 import multer from 'multer';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import { saveUploadedFileMetadata } from './file.service.js';
 import { badRequest } from '../../shared/errors/httpError.js';
 import { sendSuccess } from '../../shared/http/response.js';
@@ -7,8 +9,19 @@ import { sendSuccess } from '../../shared/http/response.js';
 const SUPPORTED_UPLOAD_EXTENSIONS = new Set(['.jpg', '.jpeg', '.png']);
 const SUPPORTED_UPLOAD_MIME_TYPES = new Set(['image/jpeg', 'image/png']);
 
+const currentFilePath = fileURLToPath(import.meta.url);
+const currentDir = path.dirname(currentFilePath);
+const uploadsDir = path.resolve(currentDir, '../../../uploads');
+
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, path.resolve('uploads')),
+  destination: (req, file, cb) => {
+    try {
+      fs.mkdirSync(uploadsDir, { recursive: true });
+      cb(null, uploadsDir);
+    } catch (error) {
+      cb(error);
+    }
+  },
   filename: (req, file, cb) => {
     const ext = path.extname(file.originalname);
     cb(null, `${Date.now()}-${Math.round(Math.random() * 1e9)}${ext}`);

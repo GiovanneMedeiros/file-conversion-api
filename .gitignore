@@ -1,4 +1,7 @@
-node_modules
-.env
+converted
 uploads
 tmp
+node_modules
+web/node_modules
+.env
+scripts/download-check.png
