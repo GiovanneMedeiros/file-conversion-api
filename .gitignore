@@ -1,7 +1,9 @@
-converted
-uploads
-tmp
-node_modules
-web/node_modules
+node_modules/
+web/node_modules/
 .env
+uploads/
+converted/
+tmp/
 scripts/download-check.png
+dist/
+web/dist/
