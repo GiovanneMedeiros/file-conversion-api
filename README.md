@@ -67,6 +67,14 @@ O fluxo de conversao e assincrono: a API enfileira jobs e o worker processa em b
 - Testes: Jest + Supertest
 - Docs: Swagger (swagger-jsdoc + swagger-ui-express)
 
+## Live Deployment
+
+Frontend  
+https://file-conversion-api.vercel.app
+
+Backend  
+https://file-conversion-api.onrender.com
+
 ## Estrutura do Projeto
 
 ```text
