@@ -359,6 +359,12 @@ Workflow em `.github/workflows/ci.yml`:
 - Versionamento de API (`/v1`)
 - Cobertura minima e lint no CI
 
+## Architecture note
+
+- The original architecture used Redis queue and background workers for asynchronous processing.
+
+- For the free deployment version, file conversion runs directly inside the API due to platform limitations.
+
 ## Licenca
 
 MIT
