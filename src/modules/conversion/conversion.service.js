@@ -1,45 +1,13 @@
 import fs from 'fs/promises';
-import net from 'net';
 import path from 'path';
 import prisma from '../../database/prismaClient.js';
-import { getConversionQueue, redisConnection } from '../../queue/conversion.queue.js';
+import { processConversion } from './conversion.processor.js';
 import logger from '../../shared/utils/logger.js';
-import { badRequest, notFound, serviceUnavailable } from '../../shared/errors/httpError.js';
+import { badRequest, notFound } from '../../shared/errors/httpError.js';
 
 const SUPPORTED_SOURCE_FORMATS = new Set(['jpg', 'jpeg', 'png']);
 
-function isRedisReachable(host, port, timeoutMs = 900) {
-  return new Promise((resolve) => {
-    const socket = net.createConnection({ host, port: Number(port) });
-    let settled = false;
-
-    const finish = (result) => {
-      if (settled) {
-        return;
-      }
-      settled = true;
-      socket.destroy();
-      resolve(result);
-    };
-
-    socket.setTimeout(timeoutMs);
-    socket.on('connect', () => finish(true));
-    socket.on('error', () => finish(false));
-    socket.on('timeout', () => finish(false));
-  });
-}
-
 export async function requestConversion({ userId, fileId, targetFormat }) {
-  const isRedisAvailable = await isRedisReachable(redisConnection.host, redisConnection.port);
-  if (!isRedisAvailable) {
-    logger.error('Redis unavailable for conversion request', {
-      redisHost: redisConnection.host,
-      redisPort: redisConnection.port,
-    });
-
-    throw serviceUnavailable('Conversion queue is unavailable. Start Redis and try again.');
-  }
-
   const file = await prisma.file.findFirst({
     where: { id: fileId, userId },
   });
@@ -64,25 +32,19 @@ export async function requestConversion({ userId, fileId, targetFormat }) {
     },
   });
 
+  logger.info('Conversion started', { conversionId: conversion.id, fileId, targetFormat });
+
   try {
-    await getConversionQueue().add('convert-file', {
-      conversionId: conversion.id,
-    });
+    await processConversion(conversion.id);
   } catch (error) {
-    logger.error('Failed to enqueue conversion job', {
+    logger.error('Conversion processing failed', {
       conversionId: conversion.id,
       message: error.message,
     });
-
-    await prisma.conversion.update({
-      where: { id: conversion.id },
-      data: { status: 'failed' },
-    });
-
-    throw serviceUnavailable('Conversion queue is unavailable. Start Redis and try again.');
+    // status already set to 'failed' inside processConversion
   }
 
-  return conversion;
+  return prisma.conversion.findUnique({ where: { id: conversion.id } });
 }
 
 export async function getConversionStatus({ userId, conversionId }) {

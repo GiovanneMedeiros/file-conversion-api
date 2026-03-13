@@ -4,7 +4,7 @@ import { useConversionStatus, useDownloadConvertedFile } from '../../hooks/useCo
 
 const STATUS_CONFIG = {
   pending: {
-    label: 'Aguardando processamento',
+    label: 'Iniciando conversão',
     icon: Clock,
     color: 'text-yellow-600',
     bg: 'bg-yellow-50 dark:bg-yellow-900/20',
@@ -54,7 +54,7 @@ export const ConversionStatus = ({ conversionId }) => {
     return null;
   }
 
-  const config = STATUS_CONFIG[conversion.status] || STATUS_CONFIG.pending;
+  const config = STATUS_CONFIG[conversion.status] || STATUS_CONFIG.processing;
   const Icon = config.icon;
 
   return (
@@ -81,9 +81,9 @@ export const ConversionStatus = ({ conversionId }) => {
 
       {conversion.status === 'pending' && (
         <Alert
-          type="warning"
-          title="Na fila de processamento"
-          message="Sua conversão foi criada e está aguardando o worker iniciar o processamento."
+          type="info"
+          title="Conversão iniciada"
+          message="A conversão foi iniciada e o resultado estará disponível em instantes."
         />
       )}
 

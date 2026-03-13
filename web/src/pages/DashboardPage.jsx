@@ -34,7 +34,7 @@ export const DashboardPage = () => {
             },
             {
               label: 'Em Processamento',
-              value: conversions?.filter((c) => c.status === 'processing' || c.status === 'pending').length || 0,
+              value: conversions?.filter((c) => c.status === 'processing').length || 0,
             },
           ].map((stat, idx) => (
             <div

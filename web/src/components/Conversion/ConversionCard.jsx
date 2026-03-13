@@ -19,7 +19,7 @@ export const ConversionCard = ({ conversion }) => {
     const labels = {
       completed: 'Concluído',
       processing: 'Processando',
-      pending: 'Aguardando',
+      pending: 'Iniciando',
       failed: 'Falhou',
     };
     return labels[status] || status;

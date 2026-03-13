@@ -53,13 +53,6 @@ export function errorMiddleware(err, req, res, next) {
     });
   }
 
-  if (err.name === 'BullMQError' || /redis|queue|bull/i.test(err.message || '')) {
-    return sendError(res, 503, 'Queue service unavailable', {
-      code: 'QUEUE_UNAVAILABLE',
-      details: err.message,
-    });
-  }
-
   return sendError(res, 500, 'Internal server error', {
     code: 'INTERNAL_SERVER_ERROR',
   });

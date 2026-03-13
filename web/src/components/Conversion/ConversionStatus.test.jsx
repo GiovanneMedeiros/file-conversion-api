@@ -43,7 +43,7 @@ describe('ConversionStatus', () => {
     expect(downloadMutateMock).toHaveBeenCalledWith('arquivo-final.png');
   });
 
-  it('renderiza estado pending com mensagem de fila', () => {
+  it('renderiza estado pending como conversão iniciada', () => {
     useConversionStatusMock.mockReturnValue({
       data: {
         status: 'pending',
@@ -56,6 +56,6 @@ describe('ConversionStatus', () => {
 
     render(<ConversionStatus conversionId="conv_2" />);
 
-    expect(screen.getByText(/Na fila de processamento/i)).toBeInTheDocument();
+    expect(screen.getByText(/Conversão iniciada/i)).toBeInTheDocument();
   });
 });

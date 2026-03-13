@@ -25,11 +25,17 @@ export const useRequestConversion = () => {
   return useMutation({
     mutationFn: ({ fileId, targetFormat }) =>
       conversionService.requestConversion(fileId, targetFormat),
-    onSuccess: () => {
+    onSuccess: (response) => {
       queryClient.invalidateQueries({ queryKey: ['conversions', 'history'] });
+
+      const conversionStatus = response?.data?.conversion?.status;
+
       addNotification({
-        type: 'success',
-        message: 'Conversão solicitada! Acompanhando status...',
+        type: conversionStatus === 'failed' ? 'error' : 'success',
+        message:
+          conversionStatus === 'failed'
+            ? 'Conversão falhou no processamento. Tente novamente com outro formato.'
+            : 'Conversão processada com sucesso!',
       });
     },
     onError: (error) => {
@@ -52,7 +58,7 @@ export const useConversionStatus = (conversionId, enabled = true) => {
     refetchInterval: (query) => {
       // Em React Query v5, o callback recebe o objeto query.
       const status = query?.state?.data?.status;
-      if (status === 'pending' || status === 'processing') {
+      if (status === 'processing') {
         return 2000;
       }
 
@@ -78,7 +84,7 @@ export const useUserConversions = () => {
     staleTime: 30000, // 30 segundos
     refetchInterval: (query) => {
       const hasRunningConversions = (query?.state?.data || []).some(
-        (conversion) => conversion.status === 'pending' || conversion.status === 'processing'
+        (conversion) => conversion.status === 'processing'
       );
 
       return hasRunningConversions ? 4000 : false;

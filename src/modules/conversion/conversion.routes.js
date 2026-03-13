@@ -20,7 +20,7 @@ const router = Router();
  *     tags: [Conversions]
  *     security:
  *       - bearerAuth: []
- *     description: Creates a conversion request and enqueues asynchronous processing in Redis/BullMQ.
+ *     description: Creates and synchronously processes a file conversion.
  *     requestBody:
  *       required: true
  *       content:
@@ -47,8 +47,6 @@ const router = Router();
  *         $ref: '#/components/responses/NotFoundError'
  *       429:
  *         $ref: '#/components/responses/TooManyRequestsError'
- *       503:
- *         $ref: '#/components/responses/QueueUnavailableError'
  *
  * /convert:
  *   post:
@@ -78,8 +76,6 @@ const router = Router();
  *         $ref: '#/components/responses/NotFoundError'
  *       429:
  *         $ref: '#/components/responses/TooManyRequestsError'
- *       503:
- *         $ref: '#/components/responses/QueueUnavailableError'
  */
 router.post(
   '/',

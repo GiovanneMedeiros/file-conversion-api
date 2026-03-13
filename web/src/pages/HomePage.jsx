@@ -20,7 +20,7 @@ export const HomePage = () => {
             <div className="space-y-8">
               <div className="inline-flex items-center gap-2 rounded-full border border-amber-300/30 bg-amber-300/10 px-4 py-2 text-sm text-amber-100">
                 <Sparkles className="h-4 w-4" />
-                Conversão assíncrona com fila, autenticação e histórico
+                Conversão direta na API, autenticação e histórico
               </div>
 
               <div className="space-y-5">
@@ -88,7 +88,7 @@ export const HomePage = () => {
                 <div className="mt-6 space-y-4">
                   {[
                     { icon: Upload, title: 'Envio de arquivo', text: 'FormData com o campo exato esperado pelo backend.' },
-                    { icon: Waves, title: 'Processamento assíncrono', text: 'Fila Redis + worker com polling automático no frontend.' },
+                    { icon: Waves, title: 'Conversão instantânea', text: 'Processamento síncrono direto na API — resultado imediato sem espera.' },
                     { icon: FileStack, title: 'Entrega final', text: 'Status completo, histórico e download protegido por JWT.' },
                   ].map((item) => {
                     const Icon = item.icon;
@@ -117,7 +117,7 @@ export const HomePage = () => {
             {
               icon: Zap,
               title: 'Rápido no que importa',
-              description: 'O frontend reage com polling e atualização automática sem virar uma interface confusa.',
+              description: 'O frontend entrega feedback imediato após cada conversão, sem etapas intermediárias.',
             },
             {
               icon: ShieldCheck,
@@ -127,7 +127,7 @@ export const HomePage = () => {
             {
               icon: ScanSearch,
               title: 'Bom para demo técnica',
-              description: 'Cada etapa deixa visível a arquitetura real por trás do produto: API, fila, worker e storage.',
+              description: 'Cada etapa deixa visível a arquitetura real por trás do produto: API, storage e histórico.',
             },
           ].map((feature) => {
             const Icon = feature.icon;
@@ -151,16 +151,16 @@ export const HomePage = () => {
             </h2>
             <p className="mt-6 text-base leading-8 text-stone-300">
               A proposta aqui não é esconder a engenharia. É expor o fluxo com clareza visual,
-              deixando evidente que existe autenticação, upload robusto, enfileiramento, status e entrega final.
+              deixando evidente que existe autenticação, upload robusto, conversão direta, status e entrega final.
             </p>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">
             {[
               ['Upload', 'Seleção, validação e envio com feedback imediato.'],
-              ['Conversão', 'Solicitação com status pendente, processando ou concluído.'],
-              ['Histórico', 'Lista viva das conversões do usuário com auto-refresh.'],
-              ['Download', 'Recuperação segura do arquivo convertido ao final do job.'],
+              ['Conversão', 'Processamento direto na API com retorno de status final.'],
+              ['Histórico', 'Lista das conversões do usuário com atualização por consulta.'],
+              ['Download', 'Recuperação segura do arquivo convertido após conclusão.'],
             ].map(([title, description]) => (
               <div key={title} className="rounded-[1.5rem] border border-white/10 bg-stone-900/70 p-5">
                 <p className="text-lg font-semibold text-stone-100">{title}</p>

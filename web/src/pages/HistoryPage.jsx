@@ -24,7 +24,7 @@ export const HistoryPage = () => {
 
         {/* Filters */}
         <div className="flex gap-2 flex-wrap">
-          {['all', 'completed', 'processing', 'pending', 'failed'].map((status) => (
+          {['all', 'completed', 'processing', 'failed'].map((status) => (
             <button
               key={status}
               onClick={() => setStatusFilter(status)}
