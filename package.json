@@ -5,7 +5,7 @@
   "description": "A SaaS-style API for file conversion using Node.js, Express, PostgreSQL and Prisma",
   "main": "src/server.js",
   "scripts": {
-    "start": "prisma migrate deploy && node src/server.js",
+    "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "smoke": "powershell -ExecutionPolicy Bypass -File ./scripts/smoke.ps1 -BaseUrl http://localhost:3000 -FailOnConvertError",
     "validate": "powershell -ExecutionPolicy Bypass -File ./scripts/validate-local.ps1 -BaseUrl http://localhost:3000",
