@@ -8,26 +8,24 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  name      String
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
-
-  files       File[]
+  id          String       @id @default(cuid())
+  name        String
+  email       String       @unique
+  password    String
+  createdAt   DateTime     @default(now())
   conversions Conversion[]
+  files       File[]
 }
 
 model File {
-  id              String   @id @default(cuid())
-  userId          String
-  filename        String
-  originalFormat  String
-  size            Int
-  createdAt       DateTime @default(now())
-
-  user         User         @relation(fields: [userId], references: [id])
-  conversions  Conversion[]
+  id             String       @id @default(cuid())
+  userId         String
+  filename       String
+  originalFormat String
+  size           Int
+  createdAt      DateTime     @default(now())
+  conversions    Conversion[]
+  user           User         @relation(fields: [userId], references: [id])
 }
 
 model Conversion {
@@ -35,10 +33,9 @@ model Conversion {
   fileId       String
   userId       String
   targetFormat String
-  status       String   @default("pending") // pending, processing, completed, failed
+  status       String   @default("pending")
   resultFile   String?
   createdAt    DateTime @default(now())
-
   file         File     @relation(fields: [fileId], references: [id])
   user         User     @relation(fields: [userId], references: [id])
 }
