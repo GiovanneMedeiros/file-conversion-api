@@ -25,12 +25,11 @@ export const HomePage = () => {
 
               <div className="space-y-5">
                 <h1 className="max-w-4xl text-5xl font-semibold leading-none tracking-tight md:text-7xl">
-                  Seu backend já prova capacidade.
-                  <span className="font-display ml-2 text-amber-300">Agora a interface também.</span>
+                  Converta arquivos de forma rápida e segura.
+                  <span className="font-display ml-2 text-amber-300">Upload, conversão e download em um fluxo simples e eficiente.</span>
                 </h1>
                 <p className="max-w-2xl text-lg leading-8 text-stone-300 md:text-xl">
-                  A Convertly apresenta upload, processamento e download com uma camada visual de portfólio:
-                  direta, elegante e pronta para demonstrar produto de verdade.
+                  Faça upload do seu arquivo, escolha o formato de destino e baixe o resultado em segundos.
                 </p>
               </div>
 
@@ -116,13 +115,13 @@ export const HomePage = () => {
           {[
             {
               icon: Zap,
-              title: 'Rápido no que importa',
-              description: 'O frontend entrega feedback imediato após cada conversão, sem etapas intermediárias.',
+              title: 'Conversão rápida',
+              description: 'Envie seu arquivo e receba o resultado convertido em poucos segundos, sem etapas complicadas.',
             },
             {
               icon: ShieldCheck,
-              title: 'Protegido por sessão',
-              description: 'Autenticação JWT integrada ao cliente, com tratamento de expiração e rotas privadas.',
+              title: 'Simples de usar',
+              description: 'Upload, escolha do formato e download do arquivo convertido em um fluxo rápido e intuitivo.',
             },
             {
               icon: ScanSearch,
@@ -147,20 +146,19 @@ export const HomePage = () => {
           <div className="rounded-[1.75rem] border border-white/10 bg-white/5 p-8 backdrop-blur-sm">
             <p className="text-sm uppercase tracking-[0.3em] text-stone-500">Apresentação</p>
             <h2 className="font-display mt-4 text-5xl leading-none text-stone-50">
-              Interface com cara de produto, não só de formulário.
+              Uma interface simples para converter arquivos.
             </h2>
             <p className="mt-6 text-base leading-8 text-stone-300">
-              A proposta aqui não é esconder a engenharia. É expor o fluxo com clareza visual,
-              deixando evidente que existe autenticação, upload robusto, conversão direta, status e entrega final.
+              Envie seu arquivo, escolha o formato de destino e baixe o resultado em segundos. O fluxo foi pensado para ser rápido, claro e fácil de usar.
             </p>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">
             {[
-              ['Upload', 'Seleção, validação e envio com feedback imediato.'],
-              ['Conversão', 'Processamento direto na API com retorno de status final.'],
-              ['Histórico', 'Lista das conversões do usuário com atualização por consulta.'],
-              ['Download', 'Recuperação segura do arquivo convertido após conclusão.'],
+              ['Upload', 'Selecione o arquivo que deseja converter e envie em poucos cliques.'],
+              ['Conversão', 'O sistema processa o arquivo rapidamente e prepara o resultado para download.'],
+              ['Histórico', 'Acompanhe todas as conversões realizadas e acesse seus arquivos quando precisar.'],
+              ['Download', 'Baixe o arquivo convertido com segurança assim que o processamento terminar.'],
             ].map(([title, description]) => (
               <div key={title} className="rounded-[1.5rem] border border-white/10 bg-stone-900/70 p-5">
                 <p className="text-lg font-semibold text-stone-100">{title}</p>
@@ -172,12 +170,12 @@ export const HomePage = () => {
 
         {!isAuthenticated && (
           <section className="rounded-[2rem] border border-amber-300/20 bg-gradient-to-r from-amber-300/12 via-amber-200/8 to-sky-400/10 px-8 py-12 text-center">
-            <p className="text-sm uppercase tracking-[0.35em] text-amber-200/80">Pronto para demonstrar</p>
+            <p className="text-sm uppercase tracking-[0.35em] text-amber-200/80">PRONTO PARA COMEÇAR</p>
             <h2 className="mt-4 text-4xl font-semibold text-stone-50 md:text-5xl">
-              Entre, envie um arquivo e deixe o fluxo vender o projeto.
+              Entre, envie seu arquivo e converta em segundos.
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-base leading-8 text-stone-300">
-              O backend já está operacional. A interface agora acompanha com uma camada visual mais madura e convincente.
+              Crie sua conta, faça upload do arquivo e baixe o resultado convertido de forma rápida e segura.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-4">
               {isAuthenticated ? (
